@@ -1,0 +1,91 @@
+
+<!-- 		 
+#####################################################################################
+#																						 
+#	Title 					:	index.html									
+#   Function				:	Test to retrieve the mobile operating system
+#								and open native application from url scheme or open
+#								open the Store if it's not already installed						 
+#	Author(s)		    	:   Blandine RUMEAU				                  				 
+#	Creation date     		:	07/03/2016		
+#
+#####################################################################################
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Mobile Operating System Detection</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+		<meta name="HandheldFriendly" content="true" /> 
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<style>
+			#my_button {
+				position:absolute;
+				text-align: center;
+				top: 20%;
+				left: 10%;
+				width:80%;
+				height:50px;
+			}
+		</style>
+		<script type="text/javascript">
+
+			function getMobileOperatingSystem () {
+
+				var operatingSystem = 'unknown';
+  				var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+			  	if(userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
+			    	operatingSystem = 'iOS';
+				}
+			  	else if(userAgent.match(/Android/i)) {
+			    	operatingSystem = 'Android';
+			  	}
+			  	
+			  	return operatingSystem;
+			}
+
+			function getAppUrlForOperatingSystem(operatingSystem) {
+
+				var url = '';
+
+				if (operatingSystem == 'iOS') {
+					url = 'myapp://test?param=a%20parameter%20for%20iOS';
+				} else if (operatingSystem == 'Android') {
+					url = 'myapp://test?param=a%20parameter%20for%20Android';
+				}
+				return url;
+			}
+
+			function getAppStoreUrlForOperatingSystem(operatingSystem) {
+
+				var url = '';
+
+				if (operatingSystem == 'iOS') {
+					url = 'itms://itunes.apple.com/us/app/apple-store/id375380948?mt=8';
+				} else if (operatingSystem == 'Android') {
+					url = 'market://details?id=com.google.android.apps.maps';
+				}
+				return url;
+			}
+
+			function openUrl () {
+
+				var operatingSystem = getMobileOperatingSystem();
+				var url = getAppUrlForOperatingSystem(operatingSystem);
+				var appStoreUrl = getAppStoreUrlForOperatingSystem(operatingSystem);
+
+				window.location = url;
+				setTimeout(function(){window.location = appStoreUrl} , 5000);
+			}
+
+		</script>
+    </head>
+    
+    <body>
+     	<button id="my_button" type="button" onclick="openUrl()">Click me</button> 
+    </body>
+</html>
